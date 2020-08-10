@@ -1,0 +1,35 @@
+import numpy as np
+import pandas as pd
+from datetime import datetime
+from google.colab import files
+uploaded = files.upload()
+import io
+df = pd.read_excel(io.BytesIO(uploaded['data.xlsx']))
+df
+date_time = []
+a = type(df['Date 1'][0])
+print(a)
+for i in df:
+  if type(df[i][0]) == a:
+    date_time.append(i)
+ 
+print('Columns having date:',date_time)
+print(len(df['Date 1']))
+date1_date2 = []
+for i in range(len(df['Date 1'])):
+  date1_date2.append(abs(df['Date 1'][i]- df['Date 2'][i]))
+print(date1_date2)
+df.insert(len(date_time), "Date 1 - Date 2",date1_date2 , True) 
+df
+date2_date3 = []
+for i in range(len(df['Date 2'])):
+  date2_date3.append(abs(df['Date 2'][i]- df['Date 3'][i]))
+print(date2_date3)
+df.insert(len(date_time)+1, "Date 2 - Date 3",date2_date3 , True) 
+df
+date1_date3 = []
+for i in range(len(df['Date 1'])):
+  date1_date3.append(abs(df['Date 1'][i]- df['Date 3'][i]))
+print(date1_date3)
+df.insert(len(date_time)+2, "Date 1 - Date 3",date1_date3 , True) 
+df
