@@ -1,0 +1,36 @@
+import numpy as np
+import pandas as pd
+from datetime import datetime
+import math
+from google.colab import files
+uploaded = files.upload()
+import io
+df = pd.read_excel(io.BytesIO(uploaded['data2.xlsx']))
+df
+pearson = []
+def function(a,b):
+  P=[]
+  Q=[]
+  R=[]
+  for i in range(len(a)):
+    
+    P.append((a[i]-np.mean(a))*(b[i]-np.mean(b)))
+    Q.append((a[i]-np.mean(a))*(a[i]-np.mean(a)))
+    R.append((b[i]-np.mean(b))*(b[i]-np.mean(b)))
+  val = sum(P)/(math.sqrt(sum(Q))*math.sqrt(sum(R)))
+  pearson.append(val)
+  print(val)
+function(df["Days of work"],df["Salary"])
+function(df["Age"],df["Salary"])
+function(df["Company Exp"],df["Salary"])
+function(df["Person Exp"],df["Salary"])
+function(df["Savings"],df["Salary"])
+
+print(pearson)
+index = []
+for i in range(len(pearson)):
+  if pearson[i]>0.85:
+    index.append(i+2)
+print(index)
+df.drop(df.columns[index],axis=1,inplace=True)
+df
